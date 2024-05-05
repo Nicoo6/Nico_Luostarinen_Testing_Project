@@ -1,0 +1,50 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Issue Test scenario. CRUD Operation: Create, Read, Update, Delete
+
+Pre Condition	Open browser, Existing project
+Post Condition	Close all browsers
+Tags	Issue, Create, Delete
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+Issue_Title= XXXXXX
+Issue_Title_Update= YYYYYY
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Positive Tests
+
+Create issue
+	Navigate to an existing project
+	Navigate to Issues
+	Create new issue
+	Input Issue_Title  Issue_Title
+	Verify that message 'Issue created right now' is shown.
+
+Update name of issue
+	Navigate to created issue
+	Click edit
+	Input Issue_Title  Issue_Title_Update
+	Save changes
+	Verify that issue title changed from Issue_Title to Issue_Title_Update.
+
+Create second issue with previous updated name
+	Navigate to Issues
+	Create new issue
+	Input Issue_Title  Issue_Title_Update
+	Verify that message 'Issue created right now' is shown.
+
+Delete first issue
+	Navigate to Issues
+	Open existing issue
+	Navigate three dots dropdown menu
+	Delete issue
+	Verify that issue is succesfully deleted.

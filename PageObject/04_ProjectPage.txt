@@ -1,0 +1,73 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Testing the project creation and deletion functionality. Project Test scenario with valid and invalid credentials.
+
+Pre Condition	 Open browser
+Post Condition	 Close all browsers
+Tags	Project, Create, Delete
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+CreateUrl= https://gitlab.com/projects/new
+Project_Name= XYZ
+Invalid_Project_Name= -x
+Template_Name XYZZZ
+Template_Name_Update XYZZZXX
+Empty=
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Positive Tests
+
+Create blank project
+	Navigate To Projectpage CreateUrl
+	Click Create blank project
+	Input Project_Name Project_Name
+	Submit Project Form
+	Validate that message is showing Project 'Project_Name' was successfully created.
+	
+Create template project 	
+	Navigate To Projectpage CreateUrl
+	Click Create from template
+	Open any template
+	Input Project_Name Template_Name
+	Submit Template Form
+	Validate that message is showing Project 'Template_Name' was successfully created.
+	
+Update name of template project
+	Navigate to template project General Settings
+	Input Project_Name	Template_Name_Update
+	Press Enter
+	Validate that existing Template_Name has changed name to 'Template_Name_Update'.
+
+Delete template project
+	Navigate to template project General Settings
+	Expand Advanced settings
+	Click Delete project
+	Validate that project has been deleted.
+
+# Negative Tests
+
+Create a blank project with the previous same name
+	Navigate To Projectpage CreateUrl
+	Click Create blank project
+	Input Project_Name Project_Name
+	Submit Project Form
+	Verify that page should contain invalid project name.
+
+Create a blank project with invalid name
+	Navigate To Projectpage CreateUrl
+	Click Create blank project
+	Input Project_Name Invalid_Project_Name
+	Submit Project Form
+	Verify that page should contain invalid project name.
+	
+
+

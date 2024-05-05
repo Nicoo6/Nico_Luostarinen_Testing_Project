@@ -1,0 +1,100 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Testing the register functionality. Register Test scenario with valid and invalid credentials.
+
+Pre Condition	Open browser
+Post Condition	Close all browsers
+Tags	Register
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+LoginUrl= https://gitlab.com/users/sign_up
+UserName= XYZ
+Password= ***
+Email= test@test.com
+FName= Nico
+LName= Luostarinen
+Dropdown= X
+Invalid_Username= XYZZZ
+Invalid_Password= ******
+Invalid_Email= testtest.com
+Empty=
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Positive Test
+
+Register With Valid Credentials
+    Navigate To Register Page  LoginUrl
+	Input Dropdown	X
+	Input FName		FName
+	Input LName		LName
+    Input Username  UserName
+	Input Email		Email
+    Input Password  Password
+    Submit Register Form
+    Verify Page Should Contain Welcome page	  
+
+# Negative Tests
+   	
+Error message Should Be Visible After Invalid Register With Empty And Space
+    Navigate To Register Page  LoginUrl
+	Input Dropdown 	  Empty
+	Input FName		  Empty
+	Input LName	 	  Empty
+    Input Username    Empty
+	Input Email 	  Empty
+    Input Password    Empty
+    Submit Register Form
+    Verify That Error message should show This field is required
+    
+Error message Should Be Visible After Invalid Register With Valid Username And Invalid Password And Invalid Email
+    Navigate To Register Page  LoginUrl
+    Input Dropdown 	  X
+	Input FName		  FName
+	Input LName	 	  LName
+    Input Username    Username
+	Input Email 	  Invalid_Email
+    Input Password    Invalid_Password
+    Submit Register Form
+    Verify Page Should Contain Invalid Register or password or email.
+    
+Error message Should Be Visible After Invalid Register With Invalid Username And Valid Password And Invalid Email
+    Navigate To Register Page  LoginUrl
+    Input Dropdown 	  X
+	Input FName		  FName
+	Input LName	 	  LName
+    Input Username    Invalid_Username
+	Input Email 	  Invalid_Email
+    Input Password    Password
+    Submit Register Form
+    Verify Page Should Contain Invalid Register or username or email.
+
+Error message Should Be Visible After Invalid Register With Invalid Username And Invalid Password And Valid Email
+    Navigate To Register Page  LoginUrl
+    Input Dropdown 	  X
+	Input FName		  FName
+	Input LName	 	  LName
+    Input Username    Invalid_Username
+	Input Email 	  Valid_Email
+    Input Password    Invalid_Password
+    Submit Register Form
+    Verify Page Should Contain Invalid Register or username or password.
+
+Error message Should Be Visible After Invalid Register With Invalid Username And Invalid Password And Invalid Email
+    Navigate To Register Page  LoginUrl
+    Input Dropdown 	  X
+	Input FName		  FName
+	Input LName	 	  LName
+    Input Username    Invalid_Username
+	Input Email 	  Invalid_Email
+    Input Password    Invalid_Password
+    Submit Register Form
+    Verify Page Should Contain Invalid Register or username or password or email.
